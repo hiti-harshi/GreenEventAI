@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GreenEvent AI Report</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🌱 GreenEvent AI Report</h1>
+
+        <p class="subtitle">
+            Sustainability Analysis for {{ event_name }}
+        </p>
+
+        <div class="info-box">
+            <p>
+                <strong>🌿 Sustainability Score:</strong>
+                {{ score }}/100
+            </p>
+        </div>
+
+        <label>📌 Event Name</label>
+        <input type="text" value="{{ event_name }}" readonly>
+
+        <label>👥 Number of Attendees</label>
+        <input type="text" value="{{ attendees }}" readonly>
+
+        <label>🏢 Venue Type</label>
+        <input type="text" value="{{ venue }}" readonly>
+
+        <label>🍽 Estimated Food Required</label>
+        <input type="text" value="{{ food }} Meals" readonly>
+
+        <label>💧 Estimated Water Consumption</label>
+        <input type="text" value="{{ water }} Liters" readonly>
+
+        <label>🗑 Estimated Plastic Waste</label>
+        <input type="text" value="{{ plastic }} Kg" readonly>
+
+        <label>⚡ Estimated Electricity Usage</label>
+        <input type="text" value="{{ electricity }} kWh" readonly>
+
+        <br>
+
+        <div class="info-box">
+
+            <h3>🤖 AI Sustainability Advisor</h3>
+
+            <pre style="white-space: pre-wrap; font-family: inherit;">
+{{ recommendations }}
+            </pre>
+
+        </div>
+
+        <br>
+
+        <a href="/">
+            <button>
+                Analyze Another Event
+            </button>
+        </a>
+
+    </div>
+
+</body>
+
+</html>

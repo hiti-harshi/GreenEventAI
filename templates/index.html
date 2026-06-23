@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GreenEvent AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🌱 GreenEvent AI</h1>
+
+        <p class="subtitle">
+            Plan Sustainable Events with AI
+        </p>
+
+        <div class="info-box">
+            <p>
+                Estimate food, water, waste and sustainability impact before conducting your event.
+            </p>
+        </div>
+
+        <form action="/analyze" method="POST">
+
+            <label>Event Name</label>
+            <input
+                type="text"
+                name="event_name"
+                placeholder="Enter event name"
+                required>
+
+            <label>Number of Attendees</label>
+            <input
+                type="number"
+                name="attendees"
+                placeholder="Enter number of attendees"
+                required>
+
+            <label>Event Duration (Hours)</label>
+            <input
+                type="number"
+                name="duration"
+                placeholder="Enter event duration"
+                required>
+
+            <label>Venue Type</label>
+
+            <select name="venue">
+                <option value="Indoor">Indoor</option>
+                <option value="Outdoor">Outdoor</option>
+            </select>
+
+            <label>Number of Food Stalls</label>
+            <input
+                type="number"
+                name="food_stalls"
+                placeholder="Enter number of food stalls"
+                required>
+
+            <button type="submit">
+                Analyze Event
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

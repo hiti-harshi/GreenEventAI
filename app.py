@@ -1,14 +1,11 @@
 from flask import Flask, render_template, request
 import google.generativeai as genai
 import os
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
-
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 app = Flask(__name__)
+
+# Get Gemini API Key from Render Environment Variables
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Configure Gemini
 genai.configure(api_key=GEMINI_API_KEY)
@@ -92,5 +89,5 @@ Keep them short and practical.
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

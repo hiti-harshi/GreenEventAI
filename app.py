@@ -3,8 +3,11 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
+
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 app = Flask(__name__)
 
 # Configure Gemini
@@ -28,17 +31,12 @@ def analyze():
     food_stalls = int(request.form['food_stalls'])
 
     # Sustainability Calculations
-
     food = int(attendees * 0.9)
-
     water = attendees * 3
-
     plastic = round(attendees * 0.04, 2)
-
     electricity = round(attendees * duration * 0.15, 2)
 
     # Sustainability Score
-
     score = 100
 
     if plastic > 30:
@@ -51,7 +49,6 @@ def analyze():
         score -= 10
 
     # AI Recommendations
-
     prompt = f"""
 You are a sustainability expert.
 

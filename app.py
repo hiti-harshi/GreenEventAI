@@ -1,16 +1,21 @@
 from flask import Flask, render_template, request
 import google.generativeai as genai
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Read API Key from environment
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 app = Flask(__name__)
 
-# Get Gemini API Key from Render Environment Variables
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-# Configure Gemini
-genai.configure(api_key=GEMINI_API_KEY)
-
-model = genai.GenerativeModel("gemini-2.5-flash")
+# Configure Gemini only if key exists
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+    model = genai.GenerativeModel("gemini-2.5-flash")
+else:
+    model = None
 
 
 @app.route('/')
@@ -27,7 +32,7 @@ def analyze():
     venue = request.form['venue']
     food_stalls = int(request.form['food_stalls'])
 
-    # Sustainability Calculations
+    # Sustainability calculations
     food = int(attendees * 0.9)
     water = attendees * 3
     plastic = round(attendees * 0.04, 2)
@@ -45,11 +50,10 @@ def analyze():
     if attendees > 1000:
         score -= 10
 
-    # AI Recommendations
     prompt = f"""
 You are a sustainability expert.
 
-Analyze the following event and provide 5 practical sustainability recommendations.
+Analyze the following event and provide exactly 5 practical sustainability recommendations.
 
 Event Name: {event_name}
 Number of Attendees: {attendees}
@@ -62,16 +66,29 @@ Estimated Water Usage: {water} liters
 Estimated Plastic Waste: {plastic} kg
 Estimated Electricity Usage: {electricity} kWh
 
-Give recommendations in bullet points.
+Give recommendations as bullet points.
 Keep them short and practical.
 """
 
-    try:
-        response = model.generate_content(prompt)
-        recommendations = response.text
+    recommendations = ""
 
-    except Exception as e:
-        recommendations = f"AI recommendations unavailable: {str(e)}"
+    if model is None:
+        recommendations = "Gemini API key not configured."
+
+    else:
+        try:
+            response = model.generate_content(
+                prompt,
+                request_options={"timeout": 20}
+            )
+
+            if hasattr(response, "text"):
+                recommendations = response.text
+            else:
+                recommendations = "No recommendations generated."
+
+        except Exception as e:
+            recommendations = f"AI recommendations unavailable: {str(e)}"
 
     return render_template(
         "result.html",
